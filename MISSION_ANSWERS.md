@@ -71,7 +71,7 @@ Why this matters:
 ## Part 3: Cloud Deployment
 
 ### Exercise 3.1: Railway deployment
-- URL: https://your-app.railway.app
+- URL: https://my-lab3-production.up.railway.app/docs
 - Screenshot:
 	- [screenshots/image.png](screenshots/image.png)
 	- [screenshots/image2.jpg](screenshots/image2.jpg)
