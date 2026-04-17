@@ -34,13 +34,15 @@ security = HTTPBearer(auto_error=False)
 
 def create_token(username: str, role: str) -> str:
     """Tạo JWT token với expiry."""
+    now = datetime.now(timezone.utc)
     payload = {
         "sub": username,           # subject (user identifier)
         "role": role,
-        "iat": datetime.now(timezone.utc),  # issued at
-        "exp": datetime.now(timezone.utc) + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES),
+        "iat": int(now.timestamp()),  # issued at
+        "exp": int((now + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)).timestamp()),
     }
-    return jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
+    token_handler = jwt.JWT()
+    return token_handler.encode(payload, SECRET_KEY, alg=ALGORITHM)
 
 
 def verify_token(credentials: HTTPAuthorizationCredentials = Security(security)) -> dict:
@@ -56,15 +58,18 @@ def verify_token(credentials: HTTPAuthorizationCredentials = Security(security))
         )
 
     try:
-        payload = jwt.decode(credentials.credentials, SECRET_KEY, algorithms=[ALGORITHM])
+        token_handler = jwt.JWT()
+        payload = token_handler.decode(credentials.credentials, SECRET_KEY, algs=[ALGORITHM])
         return {
             "username": payload["sub"],
             "role": payload["role"],
         }
-    except jwt.ExpiredSignatureError:
-        raise HTTPException(status_code=401, detail="Token expired. Please login again.")
-    except jwt.InvalidTokenError:
-        raise HTTPException(status_code=403, detail="Invalid token.")
+    except Exception as e:
+        error_msg = str(e).lower()
+        if "expired" in error_msg:
+            raise HTTPException(status_code=401, detail="Token expired. Please login again.")
+        else:
+            raise HTTPException(status_code=403, detail="Invalid token.")
 
 
 def authenticate_user(username: str, password: str) -> dict:

@@ -1,8 +1,8 @@
 #  Delivery Checklist — Day 12 Lab Submission
 
-> **Student Name:** _________________________  
-> **Student ID:** _________________________  
-> **Date:** _________________________
+> **Student Name:** Pham Minh Viet
+> **Student ID:** 2A202600265  
+> **Date:** 17/4/2026
 
 ---
 

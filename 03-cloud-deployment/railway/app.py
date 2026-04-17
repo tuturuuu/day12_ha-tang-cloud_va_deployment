@@ -4,6 +4,7 @@ Railway inject PORT env var tự động — agent phải dùng os.getenv("PORT"
 """
 import os
 import time
+from json import JSONDecodeError
 from datetime import datetime, timezone
 
 from fastapi import FastAPI, HTTPException, Request
@@ -33,10 +34,19 @@ def root():
 
 @app.post("/ask")
 async def ask_agent(request: Request):
-    body = await request.json()
+    try:
+        body = await request.json()
+    except JSONDecodeError:
+        raise HTTPException(400, "invalid JSON body")
+
+    if not isinstance(body, dict):
+        raise HTTPException(422, "JSON object body required")
+
     question = body.get("question", "")
-    if not question:
+    if not isinstance(question, str) or not question.strip():
         raise HTTPException(422, "question required")
+    question = question.strip()
+
     return {
         "question": question,
         "answer": ask(question),
