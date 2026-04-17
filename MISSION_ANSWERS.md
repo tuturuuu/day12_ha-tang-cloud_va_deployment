@@ -108,12 +108,14 @@ curl http://localhost:8000/token -X POST \
 curl http://localhost:8000/token -X POST \
   -H "Content-Type: application/json" \
   -d '{"username": "admin", "password": "teach456"}'
+# Phản hồi: {"access_token":"eyJ...","token_type":"bearer"}
 
 TOKEN="super-secret-change-in-production-please"
 curl http://localhost:8000/ask -X POST \
   -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"question": "Explain JWT"}'
+# Phản hồi: {"question":"...","answer":"..."}
 ```
 
   
