@@ -73,8 +73,8 @@ Why this matters:
 ### Exercise 3.1: Railway deployment
 - URL: https://your-app.railway.app
 - Screenshot:
-    -  screenshots/image.png
-    -  screenshots/image2.jpg
+	- [screenshots/image.png](screenshots/image.png)
+	- [screenshots/image2.jpg](screenshots/image2.jpg)
 
 ---
 
