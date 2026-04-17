@@ -81,8 +81,7 @@ async def security_headers(request: Request, call_next):
     response.headers["X-XSS-Protection"] = "1; mode=block"
     response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
     # Ẩn server info
-    if "server" in response.headers:
-        del response.headers["server"]
+    # response.headers.pop("server", None)  # Commented out due to MutableHeaders issue
     return response
 
 
@@ -200,4 +199,4 @@ if __name__ == "__main__":
     print("  student / demo123  (10 req/min, $1/day budget)")
     print("  teacher / teach456 (100 req/min, $1/day budget)")
     print(f"\nDocs: http://localhost:{port}/docs\n")
-    uvicorn.run(app, host="0.0.0.0", port=port, reload=True)
+    uvicorn.run(app, host="0.0.0.0", port=port)
